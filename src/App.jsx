@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-
 import { addTodo , removeTodo , clearTodos} from './features/TodoSlice';
 
 function App() {
@@ -37,7 +36,8 @@ function App() {
     </div>
   
     {/* Display the List of Tasks */}
-    <ul className="w-96 space-y-3">
+   <div className='flex flex-row  justify-content-space-between flex-wrap'> 
+    <ul className="w-96 space-y-3" style={{width:"18rem"}}>
       {todos.map((todo) => (
         <li
           key={todo.id}
@@ -53,6 +53,7 @@ function App() {
         </li>
       ))}
     </ul>
+    </div>
   
     {/* Clear All Button */}
     {todos.length > 0 && (
@@ -69,6 +70,7 @@ function App() {
       <p className="text-gray-500 text-sm">Manage your tasks efficiently 💡</p>
     </div>
   </div>
+
   
   );
 }
