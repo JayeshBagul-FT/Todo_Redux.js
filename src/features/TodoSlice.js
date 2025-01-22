@@ -1,32 +1,37 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-// Define the initial state
-const initialState = {
-    todos: [], // Todos array to store tasks
+
+const loadTodos = () => {
+    const storedTodos = localStorage.getItem('todos');
+    return storedTodos ? JSON.parse(storedTodos) : [];
 };
 
-// Create the slice
+const saveTodos = (todos) => {
+    localStorage.setItem('todos', JSON.stringify(todos));
+};
+
+const initialState = {
+    todos: loadTodos(), // Load from localStorage
+};
+
 const todoSlice = createSlice({
     name: 'todos',
-    initialState, // Pass the initial state here
+    initialState,
     reducers: {
-        // Add a new todo
         addTodo: (state, action) => {
             state.todos.push({ id: Date.now(), text: action.payload });
+            saveTodos(state.todos);
         },
-        // Remove a todo by ID
         removeTodo: (state, action) => {
             state.todos = state.todos.filter((todo) => todo.id !== action.payload);
+            saveTodos(state.todos);
         },
-        // Clear all todos
         clearTodos: (state) => {
             state.todos = [];
+            saveTodos(state.todos);
         },
     },
 });
 
-// Export the actions
 export const { addTodo, removeTodo, clearTodos } = todoSlice.actions;
-
-// Export the reducer
 export default todoSlice.reducer;
